@@ -1,0 +1,82 @@
+#+TITLE: org-sltypes: ontologies for org-super-links
+
+
+* Introduction
+:PROPERTIES:
+:ID:       org:a0599c43-4a58-4088-898d-86e27fc8e011
+:END:
+[[https://github.com/toshism/org-super-links][org-super-links]] provides simple pure-text tools for creating backlinks in your org files. However, [[https://github.com/toshism/org-super-links][org-super-links]] only provides a small set of global variables for customising the link details, so all links have the same drawer, prefixes and postfixes.
+
+~org-sltypes~ extends [[https://github.com/toshism/org-super-links][org-super-links]] with the ability to have a collection of link types, allowing you create an ontology for your note links.
+
+* Installation
+:PROPERTIES:
+:ID:       org:4922161a-bc51-4caa-a9f6-a64dcc842865
+:END:
+ChatGPT can probably do this faster and better than me.
+
+* Example
+:PROPERTIES:
+:ID:       org:12e4c906-dd94-46ec-af02-45fd7ffa5f16
+:END:
+
+Once org-sltypes is installed and loaded, put the following in your config:
+
+#+begin_src elisp
+(org-sltypes-make-command "my-link-disproves" nil
+                          "DISPROVED_BY"
+                          "DISPROVES"
+                          nil nil nil nil)
+(org-sltypes-make-command "my-link-disproves-insert" t
+                          "DISPROVED_BY"
+                          "DISPROVES"
+                          nil nil nil nil)
+(org-sltypes-make-command "my-link-inspires" nil
+                          "INSPIRED_BY"
+                          "INSPIRED"
+                          'org-sltypes-time-stamp-inactive
+                          'org-sltypes-time-stamp-inactive
+                          nil nil)
+(define-key org-mode-map
+  "C-c C-l C-d" 'my-link-disproves)
+(define-key org-mode-map
+  "C-c C-l C-S-d" 'my-link-disproves-insert)
+(define-key org-mode-map
+  "C-c C-l C-i" 'my-link-inspires)
+#+end_src
+
+
+If you prefer ~use-package~
+
+#+begin_src elisp
+(use-package org-sltypes
+  :after org-super-links
+  :config
+(org-sltypes-make-command "my-link-disproves" nil
+                          "DISPROVED_BY"
+                          "DISPROVES"
+                          nil nil nil nil)
+(org-sltypes-make-command "my-link-disproves-insert" t
+                          "DISPROVED_BY"
+                          "DISPROVES"
+                          nil nil nil nil)
+(org-sltypes-make-command "my-link-inspires" nil
+                          "INSPIRED_BY"
+                          "INSPIRED"
+                          'org-sltypes-time-stamp-inactive
+                          'org-sltypes-time-stamp-inactive
+                          nil nil)
+:bind (:map org-mode-map
+       ("C-c C-l C-i" . my-link-inspires)
+       ("C-c C-l C-d" . my-link-disproves)
+       ("C-c C-l C-S-d" . my-link-disproves-insert)
+
+
+
+#+end_src
+
+* Extensions [WIP]
+:PROPERTIES:
+:ID:       org:9392f8ec-b717-46af-8dd0-b393128fc5b7
+:END:
+The following packages provide a collection of predefined link functions and a keymap, ready for you to load with ~set-transient-keymap~.

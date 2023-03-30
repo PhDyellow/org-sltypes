@@ -51,6 +51,11 @@
 
 (require 'org-super-links)
 
+(defun org-sltypes-time-stamp-inactive ()
+  "Return an 'org-mode' inactive date stamp."
+  (format-time-string (org-time-stamp-format t t) (current-time)))
+
+
 (defmacro org-sltypes-make-insert (&optional
                                    backlink-draw
                                    link-draw
@@ -74,7 +79,7 @@ Nil to insert link at point.
 
 The rest of the parameters set prefix and postfix strings.
 If nil, nothing is inserted, if a string, the string is inserted.
-If a function, the fucntion is called without arguments and
+If a function, the function is called without arguments and
 must return a string.
 BACK-PRE
 LINK-PRE
@@ -111,7 +116,7 @@ Nil to insert link at point.
 
 The rest of the parameters set prefix and postfix strings.
 If nil, nothing is inserted, if a string, the string is inserted.
-If a function, the fucntion is called without arguments and
+If a function, the function is called without arguments and
 must return a string.
 BACK-PRE
 LINK-PRE
@@ -127,13 +132,48 @@ LINK-POST"
            (org-super-links-link-postfix ,(if link-post link-post org-super-links-link-postfix)))
        (org-super-links-link)))
 
-(defun org-sltypes-time-stamp-inactive ()
-  "Return an 'org-mode' inactive date stamp."
-  (format-time-string (org-time-stamp-format t t) (current-time)))
+(defmacro org-sltypes-make-command (func-name insertp
+                                              &optional
+                                              backlink-draw
+                                              link-draw
+                                              back-pre
+                                              link-pre
+                                              back-post
+                                              link-post)
+"'org-sltypes-make-command' creates an interactive function 'FUNC-NAME' that calls org-super-links with preset variables.
 
+If INSERTP is t, then the function will call 'org-superlinks-insert-link', which assumes a link has been stored with
+'org-super-links-store-link'. Otherwise, the function will call 'org-superlinks-link', which opens a UI for the user
+to select a target.
 
+Unset parameters (nil) use the current
+Global value of the variable as a fallback.
 
+BACKLINK-DRAW gives the name of the drawer at the link target.
+Nil to insert link under target heading.
+LINK-DRAW gives the name of the drawer at the link source.
+Nil to insert link at point.
 
+The rest of the parameters set prefix and postfix strings.
+If nil, nothing is inserted, if a string, the string is inserted.
+If a function, the function is called without arguments and
+must return a string.
+BACK-PRE
+LINK-PRE
+BACK-POST
+LINK-POST"
+
+  (defun ,func-name ()
+     (interactive)
+     (let (
+           (org-super-links-backlink-into-drawer ,(if backlink-draw backlink-draw org-super-links-backlink-into-drawer))
+           (org-super-links-related-into-drawer ,(if link-draw link-draw org-super-links-related-into-drawer))
+           (org-super-links-backlink-prefix ,(if back-pre back-pre org-super-links-backlink-prefix))
+           (org-super-links-backlink-postfix ,(if back-post back-post org-super-links-backlink-postfix))
+           (org-super-links-link-prefix ,(if link-pre link-pre org-super-links-link-prefix))
+           (org-super-links-link-postfix ,(if link-post link-post org-super-links-link-postfix))
+           )
+       (,(if insertp org-super-links-insert-link org-super-links-link)))))
 
 
 (provide 'org-sltypes)
