@@ -96,14 +96,14 @@ LINK-POST"
     (when inline-p
       (setq link-pre (replace-regexp-in-string "\\(_\\|-\\)" " " (downcase link-draw)) ;; may set to nil
 	    (setq link-draw nil)))
-      (let ((link-command (if use-stored-p #'org-super-links-insert-link #'org-super-links-link))
-	    (org-super-links-backlink-into-drawer (if backlink-draw backlink-draw org-super-links-backlink-into-drawer))
-            (org-super-links-related-into-drawer (if link-draw link-draw org-super-links-related-into-drawer))
-            (org-super-links-backlink-prefix (if back-pre back-pre org-super-links-backlink-prefix))
-            (org-super-links-backlink-postfix (if back-post back-post org-super-links-backlink-postfix))
-            (org-super-links-link-prefix (if link-pre link-pre org-super-links-link-prefix))
-            (org-super-links-link-postfix (if link-post link-post org-super-links-link-postfix)))
-	(funcall link-command)))
+    (let ((link-command (if use-stored-p #'org-super-links-insert-link #'org-super-links-link))
+	  (org-super-links-backlink-into-drawer (if backlink-draw backlink-draw org-super-links-backlink-into-drawer))
+          (org-super-links-related-into-drawer (if link-draw link-draw org-super-links-related-into-drawer))
+          (org-super-links-backlink-prefix (if back-pre back-pre org-super-links-backlink-prefix))
+          (org-super-links-backlink-postfix (if back-post back-post org-super-links-backlink-postfix))
+          (org-super-links-link-prefix (if link-pre link-pre org-super-links-link-prefix))
+          (org-super-links-link-postfix (if link-post link-post org-super-links-link-postfix)))
+      (funcall link-command)))
     
 
 (defmacro org-sltypes-make-insert (&optional
