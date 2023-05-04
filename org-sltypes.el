@@ -53,7 +53,8 @@
 
 (defun org-sltypes-time-stamp-inactive ()
   "Return an 'org-mode' inactive date stamp."
-  (format-time-string (org-time-stamp-format t t) (current-time)))
+  (format "%s "
+	  (format-time-string (org-time-stamp-format t t) (current-time)))
 
 
 (defmacro org-sltypes-make-insert (&optional
