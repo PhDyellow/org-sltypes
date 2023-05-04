@@ -57,17 +57,17 @@
   (format "%s "
 	  (format-time-string (org-time-stamp-format t t) (current-time))))
 
-  ;; function that takes toggles and list with link variables and does the right thing
-  (defun org-sltypes-link (inverse-backlinks-p
-			   inline-p
-			   use-stored-p
-			   backlink-draw
-                           link-draw
-                           back-pre
-                           link-pre
-                           back-post
-			   link-post)
-    "generalised org-super-links.
+;; function that takes toggles and list with link variables and does the right thing
+(defun org-sltypes-link (inverse-backlinks-p
+			 inline-p
+			 use-stored-p
+			 backlink-draw
+                         link-draw
+                         back-pre
+                         link-pre
+                         back-post
+			 link-post)
+  "generalised org-super-links.
 
 `inverse-backlinks-p' is experimental, attempts to create a backlink TO current not FROM target node, usually the target node gets a backlink. Undefined behaviour if set with inline-p.
 
@@ -88,23 +88,23 @@ BACK-PRE
 LINK-PRE
 BACK-POST
 LINK-POST"
-    (interactive)
-    (when inverse-backlinks-p
-      (cl-rotatef link-draw backlink-draw)
-      (cl-rotatef back-pre link-pre)
-      (cl-rotatef back-post link-post))
-    (when inline-p
-      (setq link-pre (replace-regexp-in-string "\\(_\\|-\\)" " " (downcase link-draw)) ;; may set to nil
-	    (setq link-draw nil)))
-    (let ((link-command (if use-stored-p #'org-super-links-insert-link #'org-super-links-link))
-	  (org-super-links-backlink-into-drawer (if backlink-draw backlink-draw org-super-links-backlink-into-drawer))
-          (org-super-links-related-into-drawer (if link-draw link-draw org-super-links-related-into-drawer))
-          (org-super-links-backlink-prefix (if back-pre back-pre org-super-links-backlink-prefix))
-          (org-super-links-backlink-postfix (if back-post back-post org-super-links-backlink-postfix))
-          (org-super-links-link-prefix (if link-pre link-pre org-super-links-link-prefix))
-          (org-super-links-link-postfix (if link-post link-post org-super-links-link-postfix)))
-      (funcall link-command)))
-    
+  (interactive)
+  (when inverse-backlinks-p
+    (cl-rotatef link-draw backlink-draw)
+    (cl-rotatef back-pre link-pre)
+    (cl-rotatef back-post link-post))
+  (when inline-p
+    (setq link-pre (replace-regexp-in-string "\\(_\\|-\\)" " " (downcase link-draw)) ;; may set to nil
+	  (setq link-draw nil)))
+  (let ((link-command (if use-stored-p #'org-super-links-insert-link #'org-super-links-link))
+	(org-super-links-backlink-into-drawer (if backlink-draw backlink-draw org-super-links-backlink-into-drawer))
+        (org-super-links-related-into-drawer (if link-draw link-draw org-super-links-related-into-drawer))
+        (org-super-links-backlink-prefix (if back-pre back-pre org-super-links-backlink-prefix))
+        (org-super-links-backlink-postfix (if back-post back-post org-super-links-backlink-postfix))
+        (org-super-links-link-prefix (if link-pre link-pre org-super-links-link-prefix))
+        (org-super-links-link-postfix (if link-post link-post org-super-links-link-postfix)))
+    (funcall link-command)))
+
 
 (defmacro org-sltypes-make-insert (&optional
                                    backlink-draw
@@ -136,22 +136,22 @@ LINK-PRE
 BACK-POST
 LINK-POST"
 
-     (let (
-           (org-super-links-backlink-into-drawer ,(if backlink-draw backlink-draw org-super-links-backlink-into-drawer))
-           (org-super-links-related-into-drawer ,(if link-draw link-draw org-super-links-related-into-drawer))
-           (org-super-links-backlink-prefix ,(if back-pre back-pre org-super-links-backlink-prefix))
-           (org-super-links-backlink-postfix ,(if back-post back-post org-super-links-backlink-postfix))
-           (org-super-links-link-prefix ,(if link-pre link-pre org-super-links-link-prefix))
-           (org-super-links-link-postfix ,(if link-post link-post org-super-links-link-postfix)))
-       (org-super-links-insert-link)))
+  (let (
+        (org-super-links-backlink-into-drawer ,(if backlink-draw backlink-draw org-super-links-backlink-into-drawer))
+        (org-super-links-related-into-drawer ,(if link-draw link-draw org-super-links-related-into-drawer))
+        (org-super-links-backlink-prefix ,(if back-pre back-pre org-super-links-backlink-prefix))
+        (org-super-links-backlink-postfix ,(if back-post back-post org-super-links-backlink-postfix))
+        (org-super-links-link-prefix ,(if link-pre link-pre org-super-links-link-prefix))
+        (org-super-links-link-postfix ,(if link-post link-post org-super-links-link-postfix)))
+    (org-super-links-insert-link)))
 
 (defmacro org-sltypes-make-link (&optional
-                                   backlink-draw
-                                   link-draw
-                                   back-pre
-                                   link-pre
-                                   back-post
-                                   link-post)
+                                 backlink-draw
+                                 link-draw
+                                 back-pre
+                                 link-pre
+                                 back-post
+                                 link-post)
   "Call org-super-links-link with preset settings.
 
 org-super-links-link opens a UI for the user to choose
@@ -173,14 +173,14 @@ LINK-PRE
 BACK-POST
 LINK-POST"
 
-     (let (
-           (org-super-links-backlink-into-drawer ,(if backlink-draw backlink-draw org-super-links-backlink-into-drawer))
-           (org-super-links-related-into-drawer ,(if link-draw link-draw org-super-links-related-into-drawer))
-           (org-super-links-backlink-prefix ,(if back-pre back-pre org-super-links-backlink-prefix))
-           (org-super-links-backlink-postfix ,(if back-post back-post org-super-links-backlink-postfix))
-           (org-super-links-link-prefix ,(if link-pre link-pre org-super-links-link-prefix))
-           (org-super-links-link-postfix ,(if link-post link-post org-super-links-link-postfix)))
-       (org-super-links-link)))
+  (let (
+        (org-super-links-backlink-into-drawer ,(if backlink-draw backlink-draw org-super-links-backlink-into-drawer))
+        (org-super-links-related-into-drawer ,(if link-draw link-draw org-super-links-related-into-drawer))
+        (org-super-links-backlink-prefix ,(if back-pre back-pre org-super-links-backlink-prefix))
+        (org-super-links-backlink-postfix ,(if back-post back-post org-super-links-backlink-postfix))
+        (org-super-links-link-prefix ,(if link-pre link-pre org-super-links-link-prefix))
+        (org-super-links-link-postfix ,(if link-post link-post org-super-links-link-postfix)))
+    (org-super-links-link)))
 
 (defmacro org-sltypes-make-command (func-name insertp
                                               &optional
@@ -190,7 +190,7 @@ LINK-POST"
                                               link-pre
                                               back-post
                                               link-post)
-"'org-sltypes-make-command' creates an interactive function 'FUNC-NAME' that calls org-super-links with preset variables.
+  "'org-sltypes-make-command' creates an interactive function 'FUNC-NAME' that calls org-super-links with preset variables.
 
 If INSERTP is t, then the function will call 'org-superlinks-insert-link', which assumes a link has been stored with
 'org-super-links-store-link'. Otherwise, the function will call 'org-superlinks-link', which opens a UI for the user
@@ -214,16 +214,16 @@ BACK-POST
 LINK-POST"
 
   (defun ,func-name ()
-     (interactive)
-     (let (
-           (org-super-links-backlink-into-drawer ,(if backlink-draw backlink-draw org-super-links-backlink-into-drawer))
-           (org-super-links-related-into-drawer ,(if link-draw link-draw org-super-links-related-into-drawer))
-           (org-super-links-backlink-prefix ,(if back-pre back-pre org-super-links-backlink-prefix))
-           (org-super-links-backlink-postfix ,(if back-post back-post org-super-links-backlink-postfix))
-           (org-super-links-link-prefix ,(if link-pre link-pre org-super-links-link-prefix))
-           (org-super-links-link-postfix ,(if link-post link-post org-super-links-link-postfix))
-           )
-       (,(if insertp org-super-links-insert-link org-super-links-link)))))
+    (interactive)
+    (let (
+          (org-super-links-backlink-into-drawer ,(if backlink-draw backlink-draw org-super-links-backlink-into-drawer))
+          (org-super-links-related-into-drawer ,(if link-draw link-draw org-super-links-related-into-drawer))
+          (org-super-links-backlink-prefix ,(if back-pre back-pre org-super-links-backlink-prefix))
+          (org-super-links-backlink-postfix ,(if back-post back-post org-super-links-backlink-postfix))
+          (org-super-links-link-prefix ,(if link-pre link-pre org-super-links-link-prefix))
+          (org-super-links-link-postfix ,(if link-post link-post org-super-links-link-postfix))
+          )
+      (,(if insertp org-super-links-insert-link org-super-links-link)))))
 
 
 (provide 'org-sltypes)
