@@ -50,7 +50,6 @@
 ;;; Code:
 
 (require 'org-super-links)
-(require 'subr)
 (require 'cl-lib)
 
 (defun org-sltypes-time-stamp-inactive ()
