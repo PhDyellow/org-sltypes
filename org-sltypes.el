@@ -55,7 +55,7 @@
 (defun org-sltypes-time-stamp-inactive ()
   "Return an 'org-mode' inactive date stamp."
   (format "%s "
-	  (format-time-string (org-time-stamp-format t t) (current-time)))
+	  (format-time-string (org-time-stamp-format t t) (current-time))))
 
   ;; function that takes toggles and list with link variables and does the right thing
   (defun org-sltypes-link (inverse-backlinks-p
