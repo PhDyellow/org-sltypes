@@ -53,7 +53,7 @@
 (require 'cl-lib)
 
 (defun org-sltypes-time-stamp-inactive ()
-  "Return an 'org-mode' inactive date stamp."
+  "Return an `org-mode' inactive date stamp."
   (format "%s "
 	  (format-time-string (org-time-stamp-format t t) (current-time))))
 
