@@ -94,7 +94,7 @@ LINK-POST"
     (cl-rotatef back-pre link-pre)
     (cl-rotatef back-post link-post))
   (when inline-p
-    (setq link-pre (replace-regexp-in-string "\\(_\\|-\\)" " " (concat (downcase link-draw) " ")) ;; may set to nil
+    (setq link-pre (replace-regexp-in-string "\\(_\\|-\\)" " " (concat (downcase link-draw) " "))) ;; may set to nil
 	  (setq link-draw nil))
   (let ((link-command (if use-stored-p #'org-super-links-insert-link #'org-super-links-link))
 	(org-super-links-backlink-into-drawer (if backlink-draw backlink-draw org-super-links-backlink-into-drawer))
